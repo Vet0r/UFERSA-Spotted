@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "977398905790",
+    "project_id": "ufersa-spotted",
+    "storage_bucket": "ufersa-spotted.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977398905790:android:6d1d1fe29781e790c917ef",
+        "android_client_info": {
+          "package_name": "com.example.instagram_clone_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977398905790-4g6r0fljfsr9tklf65d79hn8jp72bruj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPAWP_JGR4GZ-PJxRTj1QCZ9_XNoc4HiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977398905790-4g6r0fljfsr9tklf65d79hn8jp72bruj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
