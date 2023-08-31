@@ -60,7 +60,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
-  void postImage(String uid, String username, String profImage) async {
+  void postImage(String uid, String username) async {
     setState(() {
       isLoading = true;
     });
@@ -72,7 +72,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
         _file!,
         uid,
         username,
-        profImage,
       );
       if (res == "success") {
         setState(() {
@@ -138,7 +137,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   onPressed: () => postImage(
                     userProvider.getUser.uid,
                     userProvider.getUser.username,
-                    userProvider.getUser.photoUrl,
                   ),
                   child: const Text(
                     "Post",
@@ -161,11 +159,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        userProvider.getUser.photoUrl,
-                      ),
-                    ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.3,
                       child: TextField(

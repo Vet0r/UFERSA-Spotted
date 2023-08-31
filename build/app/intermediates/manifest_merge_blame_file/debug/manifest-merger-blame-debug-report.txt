@@ -12,8 +12,8 @@
 12         to allow setting breakpoints, to provide hot reload, etc.
 13    -->
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->/home/vitor/Desktop/flutter_proj/UFERSA-Spotted/android/app/src/debug/AndroidManifest.xml:6:5-66
-14-->/home/vitor/Desktop/flutter_proj/UFERSA-Spotted/android/app/src/debug/AndroidManifest.xml:6:22-64
+14-->/home/vitor/Desktop/flutter_proj/UFERSA-Spotted/android/app/src/main/AndroidManifest.xml:3:5-67
+14-->/home/vitor/Desktop/flutter_proj/UFERSA-Spotted/android/app/src/main/AndroidManifest.xml:3:22-64
 15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 15-->[com.google.firebase:firebase-auth:22.1.0] /home/vitor/.gradle/caches/transforms-3/efbb22137ca33b28756fc09c3ac11190/transformed/jetified-firebase-auth-22.1.0/AndroidManifest.xml:26:5-79
 15-->[com.google.firebase:firebase-auth:22.1.0] /home/vitor/.gradle/caches/transforms-3/efbb22137ca33b28756fc09c3ac11190/transformed/jetified-firebase-auth-22.1.0/AndroidManifest.xml:26:22-76

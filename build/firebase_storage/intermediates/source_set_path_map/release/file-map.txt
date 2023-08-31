@@ -1,0 +1,16 @@
+io.flutter.plugins.firebase.storage.firebase_storage-jetified-window-java-1.0.0-beta04-0 /home/vitor/.gradle/caches/transforms-3/103e14621261d6591176dbc2da80ac73/transformed/jetified-window-java-1.0.0-beta04/res
+io.flutter.plugins.firebase.storage.firebase_storage-jetified-window-1.0.0-beta04-1 /home/vitor/.gradle/caches/transforms-3/70f372b4bc3e2052cec710ee4b4604c3/transformed/jetified-window-1.0.0-beta04/res
+io.flutter.plugins.firebase.storage.firebase_storage-jetified-firebase-common-20.3.3-2 /home/vitor/.gradle/caches/transforms-3/7236073394d6054223e5d79fe9050aa7/transformed/jetified-firebase-common-20.3.3/res
+io.flutter.plugins.firebase.storage.firebase_storage-jetified-play-services-basement-18.1.0-3 /home/vitor/.gradle/caches/transforms-3/af06cc9774b4a1990066d1c643157611/transformed/jetified-play-services-basement-18.1.0/res
+io.flutter.plugins.firebase.storage.firebase_storage-jetified-play-services-base-18.0.1-4 /home/vitor/.gradle/caches/transforms-3/b7d10b6d2852362d04338c3c0ac0d21f/transformed/jetified-play-services-base-18.0.1/res
+io.flutter.plugins.firebase.storage.firebase_storage-core-1.6.0-5 /home/vitor/.gradle/caches/transforms-3/bc33f0538993f6ca9c46619cb0c20df1/transformed/core-1.6.0/res
+io.flutter.plugins.firebase.storage.firebase_storage-jetified-annotation-experimental-1.1.0-6 /home/vitor/.gradle/caches/transforms-3/cbda00b2aec51c5a15f0956b3f9a134e/transformed/jetified-annotation-experimental-1.1.0/res
+io.flutter.plugins.firebase.storage.firebase_storage-main-7 /home/vitor/.pub-cache/hosted/pub.dartlang.org/firebase_storage-11.2.6/android/src/main/res
+io.flutter.plugins.firebase.storage.firebase_storage-release-8 /home/vitor/.pub-cache/hosted/pub.dartlang.org/firebase_storage-11.2.6/android/src/release/res
+io.flutter.plugins.firebase.storage.firebase_storage-packaged_res-9 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/firebase_core/intermediates/packaged_res/release
+io.flutter.plugins.firebase.storage.firebase_storage-pngs-10 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/firebase_storage/generated/res/pngs/release
+io.flutter.plugins.firebase.storage.firebase_storage-resValues-11 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/firebase_storage/generated/res/resValues/release
+io.flutter.plugins.firebase.storage.firebase_storage-rs-12 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/firebase_storage/generated/res/rs/release
+io.flutter.plugins.firebase.storage.firebase_storage-mergeReleaseResources-13 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/firebase_storage/intermediates/incremental/release/mergeReleaseResources/merged.dir
+io.flutter.plugins.firebase.storage.firebase_storage-mergeReleaseResources-14 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/firebase_storage/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+io.flutter.plugins.firebase.storage.firebase_storage-merged_res-15 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/firebase_storage/intermediates/merged_res/release

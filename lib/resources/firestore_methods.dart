@@ -8,7 +8,7 @@ class FireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<String> uploadPost(String description, Uint8List file, String uid,
-      String username, String profImage) async {
+      String username) async {
     // asking uid here because we dont want to make extra calls to firebase auth when we can just get from our state management
     String res = "Some error occurred";
     try {
@@ -23,7 +23,6 @@ class FireStoreMethods {
         postId: postId,
         datePublished: DateTime.now(),
         postUrl: photoUrl,
-        profImage: profImage,
       );
       _firestore.collection('posts').doc(postId).set(post.toJson());
       res = "success";
@@ -56,7 +55,7 @@ class FireStoreMethods {
 
   // Post comment
   Future<String> postComment(String postId, String text, String uid,
-      String name, String profilePic) async {
+      String name) async {
     String res = "Some error occurred";
     try {
       if (text.isNotEmpty) {
@@ -68,7 +67,6 @@ class FireStoreMethods {
             .collection('comments')
             .doc(commentId)
             .set({
-          'profilePic': profilePic,
           'name': name,
           'uid': uid,
           'text': text,

@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 64,
               ),
               TextFieldInput(
-                hintText: 'Enter your email',
+                hintText: 'Email institucional',
                 textInputType: TextInputType.emailAddress,
                 textEditingController: _emailController,
               ),
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your password',
+                hintText: 'Senha',
                 textInputType: TextInputType.text,
                 textEditingController: _passwordController,
                 isPass: true,

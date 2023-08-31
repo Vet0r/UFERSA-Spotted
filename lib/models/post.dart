@@ -8,7 +8,6 @@ class Post {
   final String postId;
   final DateTime datePublished;
   final String postUrl;
-  final String profImage;
 
   const Post(
       {required this.description,
@@ -18,7 +17,6 @@ class Post {
       required this.postId,
       required this.datePublished,
       required this.postUrl,
-      required this.profImage,
       });
 
   static Post fromSnap(DocumentSnapshot snap) {
@@ -32,8 +30,7 @@ class Post {
       datePublished: snapshot["datePublished"],
       username: snapshot["username"],
       postUrl: snapshot['postUrl'],
-      profImage: snapshot['profImage']
-    );
+     );
   }
 
    Map<String, dynamic> toJson() => {
@@ -44,6 +41,5 @@ class Post {
         "postId": postId,
         "datePublished": datePublished,
         'postUrl': postUrl,
-        'profImage': profImage
       };
 }

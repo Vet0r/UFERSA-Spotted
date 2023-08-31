@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,9 +24,9 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _password2Controller = TextEditingController();
   bool _isLoading = false;
-  Uint8List? _image;
+  String? campus;
 
   @override
   void dispose() {
@@ -44,9 +46,8 @@ class _SignupScreenState extends State<SignupScreen> {
     String res = await AuthMethods().signUpUser(
         email: _emailController.text,
         password: _passwordController.text,
-        username: _usernameController.text,
-        bio: _bioController.text,
-        file: _image!);
+        username: _usernameController.text, 
+        password2: _password2Controller.text,);
     // if string returned is sucess, user has been created
     if (res == "success") {
       setState(() {
@@ -70,22 +71,17 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  selectImage() async {
-    Uint8List im = await pickImage(ImageSource.gallery);
-    // set state because we need to display the image we selected on the circle avatar
-    setState(() {
-      _image = im;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32),
-          width: double.infinity,
+          width: width,
+          height: height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -101,35 +97,11 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(
                 height: 64,
               ),
-              Stack(
-                children: [
-                  _image != null
-                      ? CircleAvatar(
-                          radius: 64,
-                          backgroundImage: MemoryImage(_image!),
-                          backgroundColor: Colors.red,
-                        )
-                      : const CircleAvatar(
-                          radius: 64,
-                          backgroundImage: NetworkImage(
-                              'https://i.stack.imgur.com/l60Hf.png'),
-                          backgroundColor: Colors.red,
-                        ),
-                  Positioned(
-                    bottom: -10,
-                    left: 80,
-                    child: IconButton(
-                      onPressed: selectImage,
-                      icon: const Icon(Icons.add_a_photo),
-                    ),
-                  )
-                ],
-              ),
               const SizedBox(
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your username',
+                hintText: 'Nome',
                 textInputType: TextInputType.text,
                 textEditingController: _usernameController,
               ),
@@ -137,7 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your email',
+                hintText: 'Email Institucional',
                 textInputType: TextInputType.emailAddress,
                 textEditingController: _emailController,
               ),
@@ -145,7 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your password',
+                hintText: 'Senha',
                 textInputType: TextInputType.text,
                 textEditingController: _passwordController,
                 isPass: true,
@@ -154,9 +126,41 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your bio',
+                hintText: 'Repita a Senha',
                 textInputType: TextInputType.text,
-                textEditingController: _bioController,
+                textEditingController: _password2Controller,
+                isPass: true,
+              ),
+              FutureBuilder(
+                future: FirebaseFirestore.instance.collection("campus").orderBy('nome').get(),
+                builder:(context, snapshot) {
+                  if (snapshot.hasData) {
+                    Object? objValue;
+                    List<DropdownMenuItem<Object>>? listaCampus=[];
+                    var snapMap = (snapshot.data as QuerySnapshot<Map<String, dynamic>> ).docs.asMap(); 
+                    for (var element in snapMap.entries) {
+                      listaCampus.add(
+                        DropdownMenuItem(
+                          value: element.value,
+                          child: Text(element.value["nome"]),
+                        )
+                      );
+                    }
+                    return DropdownButton(
+                      //value: objValue["nome"],
+                      items: listaCampus, 
+                      onChanged: (value) {
+                        var valuemap = value as QueryDocumentSnapshot<Map<String, dynamic>>;
+                        print(valuemap["nome"]);
+                        setState(() {
+                         objValue = valuemap;
+                        });
+                      }
+                    );
+                  } else{
+                    return const CircularProgressIndicator();
+                  }
+                }, 
               ),
               const SizedBox(
                 height: 24,

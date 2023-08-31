@@ -1,0 +1,16 @@
+io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-window-java-1.0.0-beta04-0 /home/vitor/.gradle/caches/transforms-3/103e14621261d6591176dbc2da80ac73/transformed/jetified-window-java-1.0.0-beta04/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-window-1.0.0-beta04-1 /home/vitor/.gradle/caches/transforms-3/70f372b4bc3e2052cec710ee4b4604c3/transformed/jetified-window-1.0.0-beta04/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-firebase-common-20.3.3-2 /home/vitor/.gradle/caches/transforms-3/7236073394d6054223e5d79fe9050aa7/transformed/jetified-firebase-common-20.3.3/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-play-services-basement-18.1.0-3 /home/vitor/.gradle/caches/transforms-3/af06cc9774b4a1990066d1c643157611/transformed/jetified-play-services-basement-18.1.0/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-play-services-base-18.0.1-4 /home/vitor/.gradle/caches/transforms-3/b7d10b6d2852362d04338c3c0ac0d21f/transformed/jetified-play-services-base-18.0.1/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-core-1.6.0-5 /home/vitor/.gradle/caches/transforms-3/bc33f0538993f6ca9c46619cb0c20df1/transformed/core-1.6.0/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-annotation-experimental-1.1.0-6 /home/vitor/.gradle/caches/transforms-3/cbda00b2aec51c5a15f0956b3f9a134e/transformed/jetified-annotation-experimental-1.1.0/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-main-7 /home/vitor/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-4.9.1/android/src/main/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-release-8 /home/vitor/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-4.9.1/android/src/release/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-pngs-9 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/cloud_firestore/generated/res/pngs/release
+io.flutter.plugins.firebase.firestore.cloud_firestore-resValues-10 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/cloud_firestore/generated/res/resValues/release
+io.flutter.plugins.firebase.firestore.cloud_firestore-rs-11 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/cloud_firestore/generated/res/rs/release
+io.flutter.plugins.firebase.firestore.cloud_firestore-mergeReleaseResources-12 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/cloud_firestore/intermediates/incremental/release/mergeReleaseResources/merged.dir
+io.flutter.plugins.firebase.firestore.cloud_firestore-mergeReleaseResources-13 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/cloud_firestore/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+io.flutter.plugins.firebase.firestore.cloud_firestore-merged_res-14 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/cloud_firestore/intermediates/merged_res/release
+io.flutter.plugins.firebase.firestore.cloud_firestore-packaged_res-15 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/firebase_core/intermediates/packaged_res/release

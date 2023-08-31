@@ -1,0 +1,12 @@
+io.flutter.plugins.flutter_plugin_android_lifecycle-jetified-window-java-1.0.0-beta04-0 /home/vitor/.gradle/caches/transforms-3/103e14621261d6591176dbc2da80ac73/transformed/jetified-window-java-1.0.0-beta04/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-jetified-window-1.0.0-beta04-1 /home/vitor/.gradle/caches/transforms-3/70f372b4bc3e2052cec710ee4b4604c3/transformed/jetified-window-1.0.0-beta04/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-core-1.6.0-2 /home/vitor/.gradle/caches/transforms-3/bc33f0538993f6ca9c46619cb0c20df1/transformed/core-1.6.0/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-jetified-annotation-experimental-1.1.0-3 /home/vitor/.gradle/caches/transforms-3/cbda00b2aec51c5a15f0956b3f9a134e/transformed/jetified-annotation-experimental-1.1.0/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-main-4 /home/vitor/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.15/android/src/main/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-release-5 /home/vitor/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.15/android/src/release/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-pngs-6 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/flutter_plugin_android_lifecycle/generated/res/pngs/release
+io.flutter.plugins.flutter_plugin_android_lifecycle-resValues-7 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/flutter_plugin_android_lifecycle/generated/res/resValues/release
+io.flutter.plugins.flutter_plugin_android_lifecycle-rs-8 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/flutter_plugin_android_lifecycle/generated/res/rs/release
+io.flutter.plugins.flutter_plugin_android_lifecycle-mergeReleaseResources-9 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/flutter_plugin_android_lifecycle/intermediates/incremental/release/mergeReleaseResources/merged.dir
+io.flutter.plugins.flutter_plugin_android_lifecycle-mergeReleaseResources-10 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/flutter_plugin_android_lifecycle/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+io.flutter.plugins.flutter_plugin_android_lifecycle-merged_res-11 /home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/flutter_plugin_android_lifecycle/intermediates/merged_res/release
