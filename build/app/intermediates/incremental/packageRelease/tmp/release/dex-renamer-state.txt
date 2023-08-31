@@ -1,4 +1,0 @@
-#Wed Aug 30 21:06:03 BRT 2023
-base.0=/home/vitor/Desktop/flutter_proj/UFERSA-Spotted/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
