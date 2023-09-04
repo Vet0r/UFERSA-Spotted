@@ -108,10 +108,14 @@ class _SignupScreenState extends State<SignupScreen> {
                     flex: 2,
                     child: Container(),
                   ),
-                  SvgPicture.asset(
-                    'assets/ic_instagram.svg',
-                    color: primaryColor,
-                    height: height * 0.15,
+                  Image.asset(
+                    'assets/logo.png',
+                    height: MediaQuery.of(context).size.height * 0.10,
+                  ),
+                  Image.asset(
+                    'assets/logo_string.png',
+                    width: width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.06,
                   ),
                   const SizedBox(
                     height: 22,
@@ -194,14 +198,16 @@ class _SignupScreenState extends State<SignupScreen> {
                   InkWell(
                     onTap: signUpUser,
                     child: Container(
-                      width: double.infinity,
+                      width: MediaQuery.of(context).size.width * 0.3,
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: gradient,
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
                         ),
-                        color: blueColor,
+                        borderRadius: BorderRadius.all(Radius.circular(80.0)),
                       ),
                       child: !_isLoading
                           ? const Text(
@@ -225,7 +231,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: const Text(
-                          'Already have an account?',
+                          'Já tem uma conta?',
                         ),
                       ),
                       GestureDetector(
