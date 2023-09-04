@@ -25,15 +25,16 @@ class AuthMethods {
     required String password,
     required String username,
     required String password2,
+    required String campusId,
   }) async {
     String res = "Some error Occurred";
     try {
-      if (email.isNotEmpty ||
+      if (campusId.isNotEmpty ||
+          email.isNotEmpty ||
           password.isNotEmpty ||
           username.isNotEmpty ||
           password2.isNotEmpty ||
-          password2==password
-          ) {
+          password2 == password) {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,
@@ -44,6 +45,7 @@ class AuthMethods {
           username: username,
           uid: cred.user!.uid,
           email: email,
+          campusId: campusId,
         );
 
         // adding user in our database
