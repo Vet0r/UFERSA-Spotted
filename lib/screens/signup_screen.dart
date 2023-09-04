@@ -21,12 +21,22 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  late Future<QuerySnapshot> campusData;
+  String? selectedCampus;
+  late String campusId;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
   bool _isLoading = false;
   String? campus;
+
+  @override
+  void initState() {
+    super.initState();
+    campusData =
+        FirebaseFirestore.instance.collection("campus").orderBy('nome').get();
+  }
 
   @override
   void dispose() {
@@ -46,28 +56,29 @@ class _SignupScreenState extends State<SignupScreen> {
     String res = await AuthMethods().signUpUser(
         email: _emailController.text,
         password: _passwordController.text,
-        username: _usernameController.text, 
-        password2: _password2Controller.text,);
+        username: _usernameController.text,
+        password2: _password2Controller.text,
+        campusId: campusId);
     // if string returned is sucess, user has been created
     if (res == "success") {
       setState(() {
         _isLoading = false;
       });
       // navigate to the home screen
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ResponsiveLayout(
-              mobileScreenLayout: MobileScreenLayout(),
-              webScreenLayout: WebScreenLayout(),
-            ),
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
           ),
-        );
+        ),
+      );
     } else {
       setState(() {
         _isLoading = false;
       });
       // show the error
-        showSnackBar(context, res);
+      showSnackBar(context, res);
     }
   }
 
@@ -77,152 +88,171 @@ class _SignupScreenState extends State<SignupScreen> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          width: width,
-          height: height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 2,
-                child: Container(),
-              ),
-              SvgPicture.asset(
-                'assets/ic_instagram.svg',
-                color: primaryColor,
-                height: 64,
-              ),
-              const SizedBox(
-                height: 64,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Nome',
-                textInputType: TextInputType.text,
-                textEditingController: _usernameController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Email Institucional',
-                textInputType: TextInputType.emailAddress,
-                textEditingController: _emailController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Senha',
-                textInputType: TextInputType.text,
-                textEditingController: _passwordController,
-                isPass: true,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Repita a Senha',
-                textInputType: TextInputType.text,
-                textEditingController: _password2Controller,
-                isPass: true,
-              ),
-              FutureBuilder(
-                future: FirebaseFirestore.instance.collection("campus").orderBy('nome').get(),
-                builder:(context, snapshot) {
-                  if (snapshot.hasData) {
-                    Object? objValue;
-                    List<DropdownMenuItem<Object>>? listaCampus=[];
-                    var snapMap = (snapshot.data as QuerySnapshot<Map<String, dynamic>> ).docs.asMap(); 
-                    for (var element in snapMap.entries) {
-                      listaCampus.add(
-                        DropdownMenuItem(
-                          value: element.value,
-                          child: Text(element.value["nome"]),
-                        )
-                      );
-                    }
-                    return DropdownButton(
-                      //value: objValue["nome"],
-                      items: listaCampus, 
-                      onChanged: (value) {
-                        var valuemap = value as QueryDocumentSnapshot<Map<String, dynamic>>;
-                        print(valuemap["nome"]);
-                        setState(() {
-                         objValue = valuemap;
-                        });
-                      }
-                    );
-                  } else{
-                    return const CircularProgressIndicator();
-                  }
-                }, 
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              InkWell(
-                onTap: signUpUser,
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: const ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    color: blueColor,
-                  ),
-                  child: !_isLoading
-                      ? const Text(
-                          'Sign up',
-                        )
-                      : const CircularProgressIndicator(
-                          color: primaryColor,
-                        ),
-                ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Flexible(
-                flex: 2,
-                child: Container(),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          Image.asset(
+            "assets/background_image.png",
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+          ),
+          SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              width: width,
+              height: height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: const Text(
-                      'Already have an account?',
+                  Flexible(
+                    flex: 2,
+                    child: Container(),
+                  ),
+                  SvgPicture.asset(
+                    'assets/ic_instagram.svg',
+                    color: primaryColor,
+                    height: height * 0.15,
+                  ),
+                  const SizedBox(
+                    height: 22,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  TextFieldInput(
+                    hintText: 'Nome',
+                    textInputType: TextInputType.text,
+                    textEditingController: _usernameController,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  TextFieldInput(
+                    hintText: 'Email Institucional',
+                    textInputType: TextInputType.emailAddress,
+                    textEditingController: _emailController,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  TextFieldInput(
+                    hintText: 'Senha',
+                    textInputType: TextInputType.text,
+                    textEditingController: _passwordController,
+                    isPass: true,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  TextFieldInput(
+                    hintText: 'Confirmar Senha',
+                    textInputType: TextInputType.text,
+                    textEditingController: _password2Controller,
+                    isPass: true,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  FutureBuilder<QuerySnapshot>(
+                    future: campusData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Erro ao carregar dados');
+                      } else {
+                        List<DropdownMenuItem<String>> items = [];
+                        snapshot.data!.docs.forEach((document) {
+                          campusId = document.id;
+                          String campusNome = (document.data()!
+                              as Map<String, dynamic>)['nome'];
+                          items.add(DropdownMenuItem(
+                            value: campusNome,
+                            child: Text(campusNome),
+                          ));
+                        });
+                        return Column(
+                          children: [
+                            DropdownButton<String>(
+                              value: selectedCampus,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedCampus = value;
+                                });
+                              },
+                              items: items,
+                              hint: Text('Selecione um campus'),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  InkWell(
+                    onTap: signUpUser,
+                    child: Container(
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: const ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        color: blueColor,
+                      ),
+                      child: !_isLoading
+                          ? const Text(
+                              'Cadastrar',
+                            )
+                          : const CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: const Text(
-                        ' Login.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Flexible(
+                    flex: 2,
+                    child: Container(),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: const Text(
+                          'Already have an account?',
                         ),
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: const Text(
+                            ' Login.',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  SizedBox(
+                      height: MediaQuery.of(context).viewInsets.bottom + 20),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
