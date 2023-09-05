@@ -85,13 +85,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Row(
                         children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.grey,
-                            backgroundImage: NetworkImage(
-                              userData['photoUrl'],
-                            ),
-                            radius: 40,
-                          ),
                           Expanded(
                             flex: 1,
                             child: Column(
@@ -193,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           top: 1,
                         ),
                         child: Text(
-                          userData['bio'],
+                          userData['campusId'],
                         ),
                       ),
                     ],

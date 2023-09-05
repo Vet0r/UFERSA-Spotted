@@ -66,13 +66,12 @@ class _PostCardState extends State<PostCard> {
     final width = MediaQuery.of(context).size.width;
 
     return Container(
-      // boundary needed for web
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
-        ),
-        color: mobileBackgroundColor,
-      ),
+      // decoration: BoxDecoration(
+      //   border: Border.all(
+      //     color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
+      //   ),
+      //   color: mobileBackgroundColor,
+      // ),
       padding: const EdgeInsets.symmetric(
         vertical: 10,
       ),
