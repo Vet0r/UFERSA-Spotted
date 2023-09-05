@@ -18,12 +18,11 @@ class _FeedScreenState extends State<FeedScreen> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor:
-          width > webScreenSize ? webBackgroundColor : mobileBackgroundColor,
+      backgroundColor: backgroundColor,
       appBar: width > webScreenSize
           ? null
           : AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: backgroundColor,
               centerTitle: false,
               title: SvgPicture.asset(
                 'assets/ic_instagram.svg',
@@ -51,14 +50,8 @@ class _FeedScreenState extends State<FeedScreen> {
           }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
-            itemBuilder: (ctx, index) => Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: width > webScreenSize ? width * 0.3 : 0,
-                vertical: width > webScreenSize ? 15 : 0,
-              ),
-              child: PostCard(
-                snap: snapshot.data!.docs[index].data(),
-              ),
+            itemBuilder: (ctx, index) => PostCard(
+              snap: snapshot.data!.docs[index].data(),
             ),
           );
         },

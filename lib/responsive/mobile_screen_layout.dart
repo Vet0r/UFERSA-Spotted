@@ -40,6 +40,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: PageView(
         controller: pageController,
         onPageChanged: onPageChanged,
@@ -47,6 +48,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       ),
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
+        index: _page,
         backgroundColor: Colors.transparent,
         color: Color.fromRGBO(255, 255, 255, 0.2),
         buttonBackgroundColor: Colors.transparent,

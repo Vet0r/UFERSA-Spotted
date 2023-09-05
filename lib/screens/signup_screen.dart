@@ -35,7 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void initState() {
     super.initState();
     campusData =
-        FirebaseFirestore.instance.collection("campus").orderBy('nome').get();
+        FirebaseFirestore.instance.collection("campus").orderBy('name').get();
   }
 
   @override
@@ -169,7 +169,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         snapshot.data!.docs.forEach((document) {
                           campusId = document.id;
                           String campusNome = (document.data()!
-                              as Map<String, dynamic>)['nome'];
+                              as Map<String, dynamic>)['name'];
                           items.add(DropdownMenuItem(
                             value: campusNome,
                             child: Text(campusNome),
