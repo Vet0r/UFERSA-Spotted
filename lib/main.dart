@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
-import 'package:instagram_clone_flutter/responsive/responsive_layout.dart';
-import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
-import 'package:instagram_clone_flutter/screens/login_screen.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
+import 'package:spotted_ufersa/providers/user_provider.dart';
+import 'package:spotted_ufersa/responsive/mobile_screen_layout.dart';
+import 'package:spotted_ufersa/responsive/responsive_layout.dart';
+import 'package:spotted_ufersa/responsive/web_screen_layout.dart';
+import 'package:spotted_ufersa/screens/login_screen.dart';
+import 'package:spotted_ufersa/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -37,7 +37,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider(),),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

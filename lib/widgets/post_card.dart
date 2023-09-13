@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_flutter/models/user.dart' as model;
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
-import 'package:instagram_clone_flutter/screens/comments_screen.dart';
-import 'package:instagram_clone_flutter/screens/full_image.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:instagram_clone_flutter/utils/global_variable.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
-import 'package:instagram_clone_flutter/widgets/like_animation.dart';
+import 'package:spotted_ufersa/models/user.dart' as model;
+import 'package:spotted_ufersa/providers/user_provider.dart';
+import 'package:spotted_ufersa/resources/firestore_methods.dart';
+import 'package:spotted_ufersa/screens/comments_screen.dart';
+import 'package:spotted_ufersa/screens/full_image.dart';
+import 'package:spotted_ufersa/utils/colors.dart';
+import 'package:spotted_ufersa/utils/global_variable.dart';
+import 'package:spotted_ufersa/utils/utils.dart';
+import 'package:spotted_ufersa/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -195,7 +195,7 @@ class _PostCardState extends State<PostCard> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 4),
                           child: Text(
-                            'View all $commentLen comments',
+                            '$commentLen ${commentLen == 1 ? "comentário" : "comentários"}',
                             style: const TextStyle(
                               fontSize: 16,
                               color: secondaryColor,

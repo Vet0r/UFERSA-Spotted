@@ -1,4 +1,4 @@
-package com.example.instagram_clone_flutter
+package com.vetorapps.spotted_ufersa
 
 import io.flutter.embedding.android.FlutterActivity
 

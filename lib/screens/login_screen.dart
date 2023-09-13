@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram_clone_flutter/resources/auth_methods.dart';
-import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
-import 'package:instagram_clone_flutter/responsive/responsive_layout.dart';
-import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
-import 'package:instagram_clone_flutter/screens/signup_screen.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:instagram_clone_flutter/utils/global_variable.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
-import 'package:instagram_clone_flutter/widgets/text_field_input.dart';
+import 'package:spotted_ufersa/resources/auth_methods.dart';
+import 'package:spotted_ufersa/responsive/mobile_screen_layout.dart';
+import 'package:spotted_ufersa/responsive/responsive_layout.dart';
+import 'package:spotted_ufersa/responsive/web_screen_layout.dart';
+import 'package:spotted_ufersa/screens/signup_screen.dart';
+import 'package:spotted_ufersa/utils/colors.dart';
+import 'package:spotted_ufersa/utils/global_variable.dart';
+import 'package:spotted_ufersa/utils/utils.dart';
+import 'package:spotted_ufersa/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

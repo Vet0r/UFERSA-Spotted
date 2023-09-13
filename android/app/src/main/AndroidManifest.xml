@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.instagram_clone_flutter">
+    package="com.vetorapps.spotted_ufersa">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="instagram_clone_flutter"
+        android:label="Spotted UFERSA"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
