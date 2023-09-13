@@ -4,6 +4,7 @@ import 'package:instagram_clone_flutter/models/user.dart' as model;
 import 'package:instagram_clone_flutter/providers/user_provider.dart';
 import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
 import 'package:instagram_clone_flutter/screens/comments_screen.dart';
+import 'package:instagram_clone_flutter/screens/full_image.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
 import 'package:instagram_clone_flutter/utils/global_variable.dart';
 import 'package:instagram_clone_flutter/utils/utils.dart';
@@ -265,13 +266,28 @@ class _PostCardState extends State<PostCard> {
                             Icons.send,
                           ),
                           onPressed: () {}),
-                      Expanded(
-                          child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: IconButton(
-                            icon: const Icon(Icons.bookmark_border),
-                            onPressed: () {}),
-                      ))
+                      widget.snap['likes'].contains(user.uid)
+                          ? Expanded(
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: IconButton(
+                                  icon: const Icon(Icons.fullscreen),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            FullScreenImage(
+                                          imageUrl:
+                                              widget.snap['postUrl'].toString(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ],
