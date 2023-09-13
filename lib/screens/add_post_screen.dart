@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_flutter/providers/user_provider.dart';
@@ -17,8 +18,17 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
+  late Future<QuerySnapshot> campusData;
+  String? selectedCampus;
+  late String campusId;
   bool isLoading = false;
   final TextEditingController _descriptionController = TextEditingController();
+
+  void initState() {
+    super.initState();
+    campusData =
+        FirebaseFirestore.instance.collection("campus").orderBy('name').get();
+  }
 
   _selectImage(BuildContext parentContext) async {
     return showDialog(
@@ -60,11 +70,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
-  void postImage(String uid, String username) async {
+  void postImage(
+      String uid, String username, String campusId, String campus) async {
     setState(() {
       isLoading = true;
     });
-    // start the loading
     try {
       // upload to storage and db
       String res = await FireStoreMethods().uploadPost(
@@ -72,18 +82,20 @@ class _AddPostScreenState extends State<AddPostScreen> {
         _file!,
         uid,
         username,
+        campusId,
+        campus,
       );
       if (res == "success") {
         setState(() {
           isLoading = false;
         });
-          showSnackBar(
-            context,
-            'Posted!',
-          );
+        showSnackBar(
+          context,
+          'Posted!',
+        );
         clearImage();
       } else {
-          showSnackBar(context, res);
+        showSnackBar(context, res);
       }
     } catch (err) {
       setState(() {
@@ -123,7 +135,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: backgroundColor,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: clearImage,
@@ -137,6 +149,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   onPressed: () => postImage(
                     userProvider.getUser.uid,
                     userProvider.getUser.username,
+                    campusId,
+                    selectedCampus!,
                   ),
                   child: const Text(
                     "Post",
@@ -150,43 +164,73 @@ class _AddPostScreenState extends State<AddPostScreen> {
             ),
             // POST FORM
             body: Column(
+              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 isLoading
                     ? const LinearProgressIndicator()
                     : const Padding(padding: EdgeInsets.only(top: 0.0)),
-                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: TextField(
-                        controller: _descriptionController,
-                        decoration: const InputDecoration(
-                            hintText: "Write a caption...",
-                            border: InputBorder.none),
-                        maxLines: 8,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 45.0,
-                      width: 45.0,
-                      child: AspectRatio(
-                        aspectRatio: 487 / 451,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            fit: BoxFit.fill,
-                            alignment: FractionalOffset.topCenter,
-                            image: MemoryImage(_file!),
-                          )),
-                        ),
+                      height: MediaQuery.of(context).size.width * .75,
+                      width: MediaQuery.of(context).size.width * .75,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          fit: BoxFit.contain,
+                          alignment: FractionalOffset.topCenter,
+                          image: MemoryImage(_file!),
+                        )),
                       ),
                     ),
                   ],
                 ),
-                const Divider(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  child: TextField(
+                    controller: _descriptionController,
+                    decoration: const InputDecoration(
+                        hintText: "Escreva Algo...", border: InputBorder.none),
+                    maxLines: 8,
+                  ),
+                ),
+                FutureBuilder<QuerySnapshot>(
+                  future: campusData,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Erro ao carregar dados');
+                    } else {
+                      List<DropdownMenuItem<String>> items = [];
+                      snapshot.data!.docs.forEach((document) {
+                        campusId = document.id;
+                        String campusNome =
+                            (document.data()! as Map<String, dynamic>)['name'];
+                        items.add(DropdownMenuItem(
+                          value: campusNome,
+                          child: Text(campusNome),
+                        ));
+                      });
+                      return Column(
+                        children: [
+                          DropdownButton<String>(
+                            value: selectedCampus,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedCampus = value;
+                              });
+                            },
+                            items: items,
+                            hint: Text('Selecione um campus'),
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           );

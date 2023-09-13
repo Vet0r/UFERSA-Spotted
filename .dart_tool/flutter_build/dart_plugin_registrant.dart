@@ -6,7 +6,9 @@
 // @dart = 2.15
 
 import 'dart:io'; // flutter_ignore: dart_io_import.
+import 'package:flutter_image_compress_common/flutter_image_compress_common.dart';
 import 'package:image_picker_android/image_picker_android.dart';
+import 'package:flutter_image_compress_common/flutter_image_compress_common.dart';
 import 'package:image_picker_ios/image_picker_ios.dart';
 import 'package:image_picker_linux/image_picker_linux.dart';
 import 'package:image_picker_macos/image_picker_macos.dart';
@@ -19,6 +21,16 @@ class _PluginRegistrant {
   static void register() {
     if (Platform.isAndroid) {
       try {
+        FlutterImageCompressCommon.registerWith();
+      } catch (err) {
+        print(
+          '`flutter_image_compress_common` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
+      try {
         ImagePickerAndroid.registerWith();
       } catch (err) {
         print(
@@ -29,6 +41,16 @@ class _PluginRegistrant {
       }
 
     } else if (Platform.isIOS) {
+      try {
+        FlutterImageCompressCommon.registerWith();
+      } catch (err) {
+        print(
+          '`flutter_image_compress_common` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
       try {
         ImagePickerIOS.registerWith();
       } catch (err) {
