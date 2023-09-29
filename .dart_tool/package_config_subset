@@ -326,6 +326,10 @@ flutter
 2.17
 file:///C:/flutter/packages/flutter/
 file:///C:/flutter/packages/flutter/lib/
+flutter_localizations
+2.17
+file:///C:/flutter/packages/flutter_localizations/
+file:///C:/flutter/packages/flutter_localizations/lib/
 flutter_test
 2.17
 file:///C:/flutter/packages/flutter_test/

@@ -51,7 +51,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         title: const Text(
-          'Comments',
+          'Comentários',
         ),
         centerTitle: false,
       ),
@@ -91,8 +91,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: TextField(
                     controller: commentEditingController,
-                    decoration: InputDecoration(
-                      hintText: 'Comment as ${user.username}',
+                    decoration: const InputDecoration(
+                      hintText: 'Comentar...',
                       border: InputBorder.none,
                     ),
                   ),
@@ -107,7 +107,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: const Text(
-                    'Post',
+                    'Postar',
                     style: TextStyle(color: Colors.blue),
                   ),
                 ),

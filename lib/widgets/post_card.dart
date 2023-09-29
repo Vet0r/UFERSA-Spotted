@@ -47,7 +47,7 @@ class _PostCardState extends State<PostCard> {
         err.toString(),
       );
     }
-    setState(() {});
+    //setState(() {});
   }
 
   deletePost(String postId) async {
@@ -213,7 +213,7 @@ class _PostCardState extends State<PostCard> {
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: Text(
-                          DateFormat.yMMMd()
+                          DateFormat.yMMMd('pt_BR')
                               .format(widget.snap['datePublished'].toDate()),
                           style: const TextStyle(
                             color: secondaryColor,
@@ -312,7 +312,7 @@ buttonDelete(BuildContext context, Function deletePost, String postId) {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shrinkWrap: true,
                 children: [
-                  'Delete',
+                  'Deletar Post',
                 ]
                     .map(
                       (e) => InkWell(

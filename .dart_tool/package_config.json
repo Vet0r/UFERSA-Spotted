@@ -236,6 +236,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "flutter_localizations",
+      "rootUri": "file:///C:/flutter/packages/flutter_localizations",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.15",
       "packageUri": "lib/",
@@ -506,7 +512,7 @@
       "languageVersion": "2.15"
     }
   ],
-  "generated": "2023-09-13T14:57:15.272360Z",
+  "generated": "2023-09-29T02:10:56.975072Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

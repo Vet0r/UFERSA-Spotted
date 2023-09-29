@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Campus {
-  final String campusId;
-  final String name;
+  String campusId;
+  String name;
 
-  const Campus({
+  Campus({
     required this.name,
     required this.campusId,
   });
