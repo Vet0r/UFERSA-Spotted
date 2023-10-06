@@ -4,14 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram_clone_flutter/resources/auth_methods.dart';
-import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
-import 'package:instagram_clone_flutter/responsive/responsive_layout.dart';
-import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
-import 'package:instagram_clone_flutter/screens/login_screen.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
-import 'package:instagram_clone_flutter/widgets/text_field_input.dart';
+import 'package:spotted_ufersa/resources/auth_methods.dart';
+import 'package:spotted_ufersa/responsive/mobile_screen_layout.dart';
+import 'package:spotted_ufersa/responsive/responsive_layout.dart';
+import 'package:spotted_ufersa/responsive/web_screen_layout.dart';
+import 'package:spotted_ufersa/screens/login_screen.dart';
+import 'package:spotted_ufersa/utils/colors.dart';
+import 'package:spotted_ufersa/utils/utils.dart';
+import 'package:spotted_ufersa/widgets/text_field_input.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void initState() {
     super.initState();
     campusData =
-        FirebaseFirestore.instance.collection("campus").orderBy('nome').get();
+        FirebaseFirestore.instance.collection("campus").orderBy('name').get();
   }
 
   @override
@@ -108,10 +108,14 @@ class _SignupScreenState extends State<SignupScreen> {
                     flex: 2,
                     child: Container(),
                   ),
-                  SvgPicture.asset(
-                    'assets/ic_instagram.svg',
-                    color: primaryColor,
-                    height: height * 0.15,
+                  Image.asset(
+                    'assets/logo.png',
+                    height: MediaQuery.of(context).size.height * 0.10,
+                  ),
+                  Image.asset(
+                    'assets/logo_string.png',
+                    width: width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.06,
                   ),
                   const SizedBox(
                     height: 22,
@@ -165,7 +169,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         snapshot.data!.docs.forEach((document) {
                           campusId = document.id;
                           String campusNome = (document.data()!
-                              as Map<String, dynamic>)['nome'];
+                              as Map<String, dynamic>)['name'];
                           items.add(DropdownMenuItem(
                             value: campusNome,
                             child: Text(campusNome),
@@ -194,14 +198,16 @@ class _SignupScreenState extends State<SignupScreen> {
                   InkWell(
                     onTap: signUpUser,
                     child: Container(
-                      width: double.infinity,
+                      width: MediaQuery.of(context).size.width * 0.3,
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: gradient,
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
                         ),
-                        color: blueColor,
+                        borderRadius: BorderRadius.all(Radius.circular(80.0)),
                       ),
                       child: !_isLoading
                           ? const Text(
@@ -225,7 +231,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: const Text(
-                          'Already have an account?',
+                          'Já tem uma conta?',
                         ),
                       ),
                       GestureDetector(

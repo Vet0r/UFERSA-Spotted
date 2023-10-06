@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram_clone_flutter/resources/auth_methods.dart';
-import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
-import 'package:instagram_clone_flutter/responsive/responsive_layout.dart';
-import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
-import 'package:instagram_clone_flutter/screens/signup_screen.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:instagram_clone_flutter/utils/global_variable.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
-import 'package:instagram_clone_flutter/widgets/text_field_input.dart';
+import 'package:spotted_ufersa/resources/auth_methods.dart';
+import 'package:spotted_ufersa/responsive/mobile_screen_layout.dart';
+import 'package:spotted_ufersa/responsive/responsive_layout.dart';
+import 'package:spotted_ufersa/responsive/web_screen_layout.dart';
+import 'package:spotted_ufersa/screens/signup_screen.dart';
+import 'package:spotted_ufersa/utils/colors.dart';
+import 'package:spotted_ufersa/utils/global_variable.dart';
+import 'package:spotted_ufersa/utils/utils.dart';
+import 'package:spotted_ufersa/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -82,10 +82,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     flex: 2,
                     child: Container(),
                   ),
-                  SvgPicture.asset(
-                    'assets/ic_instagram.svg',
-                    color: primaryColor,
-                    height: MediaQuery.of(context).size.height * 0.15,
+                  Image.asset(
+                    'assets/logo.png',
+                    height: MediaQuery.of(context).size.height * 0.10,
+                  ),
+                  Image.asset(
+                    'assets/logo_string.png',
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.06,
                   ),
                   const SizedBox(
                     height: 64,
@@ -110,18 +114,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   InkWell(
                     onTap: loginUser,
                     child: Container(
-                      width: double.infinity,
+                      width: MediaQuery.of(context).size.width * 0.3,
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: gradient,
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
                         ),
-                        color: blueColor,
+                        borderRadius: BorderRadius.all(Radius.circular(80.0)),
                       ),
                       child: !_isLoading
                           ? const Text(
-                              'Log in',
+                              'Entrar',
                             )
                           : const CircularProgressIndicator(
                               color: primaryColor,
@@ -141,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: const Text(
-                          'Dont have an account?',
+                          'Não tem uma conta?',
                         ),
                       ),
                       GestureDetector(
@@ -153,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: const Text(
-                            ' Signup.',
+                            ' inscreva-se',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),

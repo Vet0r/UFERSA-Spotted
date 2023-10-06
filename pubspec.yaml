@@ -1,4 +1,4 @@
-name: instagram_clone_flutter
+name: spotted_ufersa
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -26,13 +26,21 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+dependency_overrides:
+  intl: any
 dependencies:
   cloud_firestore: ^4.8.1
   cupertino_icons: ^1.0.2
+  curved_navigation_bar: ^1.0.3
+  fast_image_resizer: ^0.0.2
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
   firebase_storage: ^11.2.3
   flutter:
+    sdk: flutter
+  flutter_image_compress: ^2.0.0
+  flutter_launcher_icons: ^0.12.0
+  flutter_localizations:
     sdk: flutter
   flutter_staggered_grid_view: ^0.6.2
   flutter_svg: ^1.1.6
@@ -45,6 +53,14 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/ic_launcher.png"
+  adaptive_icon_foreground: "assets/ic_launcher_foreground.png"
+  adaptive_icon_background: "assets/ic_launcher_background.png"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -59,6 +75,16 @@ flutter:
   assets:
     - assets/ic_instagram.svg
     - assets/background_image.png
+    - assets/logo.png
+    - assets/logo_string.png
+    - assets/add.svg
+    - assets/boneco.svg
+    - assets/favorite.svg
+    - assets/notifications.svg
+    - assets/home.svg
+    - assets/ic_launcher_background.png
+    - assets/ic_launcher_foreground.png
+    - assets/ic_launcher.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

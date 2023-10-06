@@ -7,17 +7,10 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(
-              snap.data()['profilePic'],
-            ),
-            radius: 18,
-          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
@@ -28,10 +21,11 @@ class CommentCard extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(
-                          text: snap.data()['name'],
-                          style: const TextStyle(fontWeight: FontWeight.bold,)
-                        ),
+                        const TextSpan(
+                            text: "Anônimo",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
                         TextSpan(
                           text: ' ${snap.data()['text']}',
                         ),
@@ -41,11 +35,13 @@ class CommentCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      DateFormat.yMMMd().format(
+                      DateFormat.yMMMd('pt_BR').format(
                         snap.data()['datePublished'].toDate(),
                       ),
                       style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.w400,),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   )
                 ],

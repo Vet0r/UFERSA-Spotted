@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '977398905790',
     projectId: 'ufersa-spotted',
     storageBucket: 'ufersa-spotted.appspot.com',
-    iosClientId: '977398905790-jh57gg77ajlukuusfqufjnn94sd8cbr7.apps.googleusercontent.com',
-    iosBundleId: 'com.example.instagramCloneFlutter',
+    iosClientId:
+        '977398905790-jh57gg77ajlukuusfqufjnn94sd8cbr7.apps.googleusercontent.com',
+    iosBundleId: 'com.vetorapps.spotted_ufersa',
   );
 }
