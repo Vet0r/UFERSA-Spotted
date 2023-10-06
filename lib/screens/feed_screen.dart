@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:instagram_clone_flutter/utils/global_variable.dart';
-import 'package:instagram_clone_flutter/widgets/post_card.dart';
+import 'package:spotted_ufersa/models/campus.dart';
+import 'package:spotted_ufersa/utils/colors.dart';
+import 'package:spotted_ufersa/utils/global_variable.dart';
+import 'package:spotted_ufersa/widgets/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -13,35 +14,69 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  List<Campus> listaCampus = [];
+  bool isSelected = false;
+  Campus? selectedCampus =
+      new Campus(name: "Mossoró", campusId: "ijLYXMuEvj4OhF5sUZlG");
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor:
-          width > webScreenSize ? webBackgroundColor : mobileBackgroundColor,
+      backgroundColor: backgroundColor,
       appBar: width > webScreenSize
           ? null
           : AppBar(
-              backgroundColor: mobileBackgroundColor,
-              centerTitle: false,
-              title: SvgPicture.asset(
-                'assets/ic_instagram.svg',
-                color: primaryColor,
-                height: 32,
-              ),
+              backgroundColor: backgroundColor,
               actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.messenger_outline,
-                    color: primaryColor,
+                SizedBox(
+                  width: width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.filter_alt_outlined,
+                            color: primaryColor,
+                          ),
+                          onPressed: () {
+                            filterWidget(context);
+                          },
+                        ),
+                      ),
+                      SvgPicture.asset(
+                        'assets/ic_instagram.svg',
+                        color: primaryColor,
+                        height: 50,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.messenger_outline,
+                            color: primaryColor,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
+                    ],
                   ),
-                  onPressed: () {},
-                ),
+                )
               ],
             ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        stream: isSelected
+            ? FirebaseFirestore.instance
+                .collection('posts')
+                .orderBy("datePublished", descending: true)
+                .where('campus', isEqualTo: selectedCampus!.name)
+                .snapshots()
+            : FirebaseFirestore.instance
+                .collection('posts')
+                .orderBy("datePublished", descending: true)
+                .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -51,18 +86,65 @@ class _FeedScreenState extends State<FeedScreen> {
           }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
-            itemBuilder: (ctx, index) => Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: width > webScreenSize ? width * 0.3 : 0,
-                vertical: width > webScreenSize ? 15 : 0,
-              ),
-              child: PostCard(
-                snap: snapshot.data!.docs[index].data(),
-              ),
+            itemBuilder: (ctx, index) => PostCard(
+              snap: snapshot.data!.docs[index].data(),
             ),
           );
         },
       ),
+    );
+  }
+
+  filterWidget(BuildContext context) {
+    showDialog(
+      useRootNavigator: false,
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: FutureBuilder<QuerySnapshot>(
+            future: FirebaseFirestore.instance
+                .collection("campus")
+                .orderBy('name')
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Erro ao carregar dados');
+              } else {
+                List<DropdownMenuItem<Campus>> items = [];
+                for (var document in snapshot.data!.docs) {
+                  Campus camp = new Campus(name: "name", campusId: "campusId");
+                  camp.campusId = document.id;
+                  camp.name =
+                      (document.data()! as Map<String, dynamic>)['name'];
+                  listaCampus.add(camp);
+                  items.add(DropdownMenuItem(
+                    value: camp,
+                    child: Text(camp.name),
+                  ));
+                }
+                return Column(
+                  children: [
+                    DropdownButton<Campus>(
+                      value: items[0].value,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCampus = value;
+                          isSelected = true;
+                        });
+                        Navigator.of(context).pop();
+                      },
+                      items: items,
+                      hint: Text('Selecione um campus'),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+        );
+      },
     );
   }
 }
