@@ -5,22 +5,26 @@ class User {
   final String uid;
   final String username;
   final String campusId;
+  bool verifyed;
 
-  const User({
+  User({
     required this.username,
     required this.uid,
     required this.email,
     required this.campusId,
+    required this.verifyed,
   });
 
   static User fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return User(
-        username: snapshot["username"],
-        uid: snapshot["uid"],
-        email: snapshot["email"],
-        campusId: snapshot["campusId"]);
+      username: snapshot["username"],
+      uid: snapshot["uid"],
+      email: snapshot["email"],
+      campusId: snapshot["campusId"],
+      verifyed: snapshot["verifyed"],
+    );
   }
 
   Map<String, dynamic> toJson() => {
@@ -28,5 +32,6 @@ class User {
         "uid": uid,
         "email": email,
         "campusId": campusId,
+        "verifyed": verifyed,
       };
 }

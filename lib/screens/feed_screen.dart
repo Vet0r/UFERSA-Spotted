@@ -17,7 +17,7 @@ class _FeedScreenState extends State<FeedScreen> {
   List<Campus> listaCampus = [];
   bool isSelected = false;
   Campus? selectedCampus =
-      new Campus(name: "Mossoró", campusId: "ijLYXMuEvj4OhF5sUZlG");
+      Campus(name: "Mossoró", campusId: "ijLYXMuEvj4OhF5sUZlG");
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -79,7 +79,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (!snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
             );

@@ -47,29 +47,25 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
-    // set loading to true
     setState(() {
       _isLoading = true;
     });
 
-    // signup user using our authmethodds
     String res = await AuthMethods().signUpUser(
         email: _emailController.text,
         password: _passwordController.text,
         username: _usernameController.text,
         password2: _password2Controller.text,
         campusId: campusId);
-    // if string returned is sucess, user has been created
-    if (res == "success") {
+    if (res == "Verifique seu Email!") {
       setState(() {
         _isLoading = false;
       });
-      // navigate to the home screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const ResponsiveLayout(
-            mobileScreenLayout: MobileScreenLayout(),
-            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: LoginScreen(),
+            webScreenLayout: LoginScreen(),
           ),
         ),
       );
@@ -77,7 +73,6 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() {
         _isLoading = false;
       });
-      // show the error
       showSnackBar(context, res);
     }
   }
@@ -175,19 +170,15 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: Text(campusNome),
                           ));
                         });
-                        return Column(
-                          children: [
-                            DropdownButton<String>(
-                              value: selectedCampus,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedCampus = value;
-                                });
-                              },
-                              items: items,
-                              hint: Text('Selecione um campus'),
-                            ),
-                          ],
+                        return DropdownButton<String>(
+                          value: selectedCampus,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedCampus = value;
+                            });
+                          },
+                          items: items,
+                          hint: Text('Selecione um campus'),
                         );
                       }
                     },

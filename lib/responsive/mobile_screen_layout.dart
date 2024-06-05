@@ -1,6 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:spotted_ufersa/providers/user_provider.dart';
 import 'package:spotted_ufersa/utils/colors.dart';
 import 'package:spotted_ufersa/utils/global_variable.dart';
 
@@ -19,6 +22,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   void initState() {
     super.initState();
     pageController = PageController();
+    if (!FirebaseAuth.instance.currentUser!.emailVerified) {
+      FirebaseAuth.instance.currentUser!.reload();
+    }
   }
 
   @override
@@ -39,13 +45,14 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: PageView(
-        controller: pageController,
-        onPageChanged: onPageChanged,
-        children: homeScreenItems,
-      ),
+          controller: pageController,
+          onPageChanged: onPageChanged,
+          children: homeScreenItems),
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
         index: _page,

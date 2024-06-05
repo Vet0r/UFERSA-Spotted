@@ -1,14 +1,11 @@
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spotted_ufersa/models/user.dart' as model;
-import 'package:spotted_ufersa/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // get user details
   Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser!;
 
@@ -17,8 +14,6 @@ class AuthMethods {
 
     return model.User.fromSnap(documentSnapshot);
   }
-
-  // Signing Up User
 
   Future<String> signUpUser({
     required String email,
@@ -29,13 +24,17 @@ class AuthMethods {
   }) async {
     String res = "Some error Occurred";
     try {
-      if (campusId.isNotEmpty ||
-          email.isNotEmpty ||
-          password.isNotEmpty ||
-          username.isNotEmpty ||
-          password2.isNotEmpty ||
-          password2 == password) {
-        // registering user in auth with email and password
+      if (campusId.isNotEmpty &&
+          email.isNotEmpty &&
+          password.isNotEmpty &&
+          username.isNotEmpty &&
+          password2.isNotEmpty) {
+        if (!email.contains("@alunos.ufersa.edu.br")) {
+          return "Insira seu email institucional";
+        }
+        if (password2 != password) {
+          return "As senhas não coincidem";
+        }
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
@@ -46,17 +45,16 @@ class AuthMethods {
           uid: cred.user!.uid,
           email: email,
           campusId: campusId,
+          verifyed: FirebaseAuth.instance.currentUser!.emailVerified,
         );
-
-        // adding user in our database
         await _firestore
             .collection("users")
             .doc(cred.user!.uid)
             .set(user.toJson());
-
-        res = "success";
+        res = "Verifique seu Email!";
+        FirebaseAuth.instance.currentUser!.sendEmailVerification();
       } else {
-        res = "Please enter all the fields";
+        res = "Preencha todos os campos";
       }
     } catch (err) {
       return err.toString();
@@ -64,7 +62,6 @@ class AuthMethods {
     return res;
   }
 
-  // logging in user
   Future<String> loginUser({
     required String email,
     required String password,
@@ -72,14 +69,15 @@ class AuthMethods {
     String res = "Some error Occurred";
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
-        // logging in user with email and password
         await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
-        res = "success";
+        _auth.currentUser!.emailVerified
+            ? res = "success"
+            : res = "Verifique seu email";
       } else {
-        res = "Please enter all the fields";
+        res = "Preencha todos os campos";
       }
     } catch (err) {
       return err.toString();
