@@ -67,7 +67,7 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
       body: StreamBuilder(
-        stream: isSelected
+        stream: (isSelected && selectedCampus!.campusId != "")
             ? FirebaseFirestore.instance
                 .collection('posts')
                 .orderBy("datePublished", descending: true)
@@ -81,15 +81,20 @@ class _FeedScreenState extends State<FeedScreen> {
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (ctx, index) => PostCard(
+                snap: snapshot.data!.docs[index].data(),
+              ),
             );
           }
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (ctx, index) => PostCard(
-              snap: snapshot.data!.docs[index].data(),
-            ),
-          );
         },
       ),
     );
@@ -108,11 +113,27 @@ class _FeedScreenState extends State<FeedScreen> {
                 .get(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.80,
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  child: const Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                );
               } else if (snapshot.hasError) {
                 return Text('Erro ao carregar dados');
               } else {
                 List<DropdownMenuItem<Campus>> items = [];
+                items.add(
+                  DropdownMenuItem(
+                    value: Campus(name: "Todos", campusId: ""),
+                    child: Text("Todos"),
+                  ),
+                );
                 for (var document in snapshot.data!.docs) {
                   Campus camp = new Campus(name: "name", campusId: "campusId");
                   camp.campusId = document.id;
@@ -124,9 +145,11 @@ class _FeedScreenState extends State<FeedScreen> {
                     child: Text(camp.name),
                   ));
                 }
-                return Column(
-                  children: [
-                    DropdownButton<Campus>(
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.80,
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  child: Center(
+                    child: DropdownButton<Campus>(
                       value: items[0].value,
                       onChanged: (value) {
                         setState(() {
@@ -138,7 +161,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       items: items,
                       hint: Text('Selecione um campus'),
                     ),
-                  ],
+                  ),
                 );
               }
             },

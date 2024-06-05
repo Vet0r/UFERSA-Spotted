@@ -47,7 +47,7 @@ class _PostCardState extends State<PostCard> {
         err.toString(),
       );
     }
-    //setState(() {});
+    setState(() {});
   }
 
   deletePost(String postId) async {
@@ -64,13 +64,11 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
-    final width = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
       child: Column(
         children: [
-          // IMAGE SECTION OF THE POST
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
