@@ -4,6 +4,7 @@ import 'package:spotted_ufersa/resources/auth_methods.dart';
 import 'package:spotted_ufersa/responsive/mobile_screen_layout.dart';
 import 'package:spotted_ufersa/responsive/responsive_layout.dart';
 import 'package:spotted_ufersa/responsive/web_screen_layout.dart';
+import 'package:spotted_ufersa/screens/forgot_password.dart';
 import 'package:spotted_ufersa/screens/signup_screen.dart';
 import 'package:spotted_ufersa/utils/colors.dart';
 import 'package:spotted_ufersa/utils/global_variable.dart';
@@ -108,8 +109,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     textEditingController: _passwordController,
                     isPass: true,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const ForgotPassScreen(),
+                            ),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: const Text(
+                              'Esqueci a senha',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(
-                    height: 24,
+                    height: 20,
                   ),
                   InkWell(
                     onTap: loginUser,

@@ -220,7 +220,6 @@ class _PostCardState extends State<PostCard> {
                       ),
                     ],
                   ),
-                  // LIKE, COMMENT SECTION OF THE POST
                   Row(
                     children: <Widget>[
                       Text(

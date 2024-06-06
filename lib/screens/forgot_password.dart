@@ -1,63 +1,40 @@
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:spotted_ufersa/resources/auth_methods.dart';
-import 'package:spotted_ufersa/responsive/mobile_screen_layout.dart';
 import 'package:spotted_ufersa/responsive/responsive_layout.dart';
-import 'package:spotted_ufersa/responsive/web_screen_layout.dart';
 import 'package:spotted_ufersa/screens/login_screen.dart';
 import 'package:spotted_ufersa/utils/colors.dart';
 import 'package:spotted_ufersa/utils/utils.dart';
 import 'package:spotted_ufersa/widgets/text_field_input.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+class ForgotPassScreen extends StatefulWidget {
+  const ForgotPassScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<ForgotPassScreen> createState() => _ForgotPassScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-  late Future<QuerySnapshot> campusData;
-  String? selectedCampus;
-  late String campusId;
-  final TextEditingController _usernameController = TextEditingController();
+class _ForgotPassScreenState extends State<ForgotPassScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _password2Controller = TextEditingController();
   bool _isLoading = false;
   String? campus;
 
   @override
-  void initState() {
-    super.initState();
-    campusData =
-        FirebaseFirestore.instance.collection("campus").orderBy('name').get();
-  }
-
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
-    _passwordController.dispose();
-    _usernameController.dispose();
   }
 
-  void signUpUser() async {
+  void changePass() async {
     setState(() {
       _isLoading = true;
     });
 
-    String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
-        password: _passwordController.text,
-        username: _usernameController.text,
-        password2: _password2Controller.text,
-        campusId: campusId);
-    if (res == "Verifique seu Email!") {
+    String res = await AuthMethods().forgotPass(
+      email: _emailController.text,
+    );
+    if (res == "Email enviado!") {
       setState(() {
         _isLoading = false;
       });
@@ -114,18 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: MediaQuery.of(context).size.height * 0.06,
                   ),
                   const SizedBox(
-                    height: 22,
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  TextFieldInput(
-                    hintText: 'Nome',
-                    textInputType: TextInputType.text,
-                    textEditingController: _usernameController,
-                  ),
-                  const SizedBox(
-                    height: 24,
+                    height: 46,
                   ),
                   TextFieldInput(
                     hintText: 'Email Institucional',
@@ -135,60 +101,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  TextFieldInput(
-                    hintText: 'Senha',
-                    textInputType: TextInputType.text,
-                    textEditingController: _passwordController,
-                    isPass: true, // adicionar switch de visão de senha
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  TextFieldInput(
-                    hintText: 'Confirmar Senha',
-                    textInputType: TextInputType.text,
-                    textEditingController: _password2Controller,
-                    isPass: true,
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  FutureBuilder<QuerySnapshot>(
-                    future: campusData,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Erro ao carregar dados');
-                      } else {
-                        List<DropdownMenuItem<String>> items = [];
-                        snapshot.data!.docs.forEach((document) {
-                          campusId = document.id;
-                          String campusNome = (document.data()!
-                              as Map<String, dynamic>)['name'];
-                          items.add(DropdownMenuItem(
-                            value: campusNome,
-                            child: Text(campusNome),
-                          ));
-                        });
-                        return DropdownButton<String>(
-                          value: selectedCampus,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedCampus = value;
-                            });
-                          },
-                          items: items,
-                          hint: Text('Selecione um campus'),
-                        );
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
                   InkWell(
-                    onTap: signUpUser,
+                    onTap: changePass,
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.3,
                       alignment: Alignment.center,
@@ -203,7 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       child: !_isLoading
                           ? const Text(
-                              'Cadastrar',
+                              'Enviar',
                             )
                           : const CircularProgressIndicator(
                               color: primaryColor,

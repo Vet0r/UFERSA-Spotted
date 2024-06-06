@@ -62,11 +62,32 @@ class AuthMethods {
     return res;
   }
 
+  Future<String> forgotPass({required String email}) async {
+    String res = "Algo deu errado";
+    try {
+      if (email.isNotEmpty) {
+        if (email.contains("@alunos.ufersa.edu.br")) {
+          await _auth.sendPasswordResetEmail(
+            email: email,
+          );
+          res = "Email enviado!";
+        } else {
+          res = "Email inválido";
+        }
+      } else {
+        res = "Preencha o email";
+      }
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
+
   Future<String> loginUser({
     required String email,
     required String password,
   }) async {
-    String res = "Some error Occurred";
+    String res = "Algo deu errado";
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
         await _auth.signInWithEmailAndPassword(
