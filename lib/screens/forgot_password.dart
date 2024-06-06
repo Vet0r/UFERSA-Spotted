@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spotted_ufersa/resources/auth_methods.dart';
 import 'package:spotted_ufersa/responsive/responsive_layout.dart';
