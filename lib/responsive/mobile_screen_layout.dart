@@ -45,8 +45,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
-
     return Scaffold(
       backgroundColor: backgroundColor,
       body: PageView(
@@ -57,7 +55,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       bottomNavigationBar: CurvedNavigationBar(
         index: _page,
         backgroundColor: Colors.transparent,
-        color: Color.fromRGBO(255, 255, 255, 0.2),
+        color: Color.fromRGBO(43, 0, 56, 1),
         buttonBackgroundColor: Colors.transparent,
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
@@ -94,10 +92,9 @@ curvedAsset(String asset, bool isSelected) {
     child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: SvgPicture.asset(
-        asset,
-        fit: BoxFit.contain,
-        color: isSelected ? Colors.white : Color.fromRGBO(26, 5, 86, 1),
-      ),
+          isSelected ? "${asset.replaceAll(".svg", "")}_selected.svg" : asset,
+          fit: BoxFit.contain,
+          color: Colors.white),
     ),
   );
 }

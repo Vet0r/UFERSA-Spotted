@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spotted_ufersa/providers/user_provider.dart';
 import 'package:spotted_ufersa/resources/firestore_methods.dart';
@@ -28,46 +30,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
     super.initState();
     campusData =
         FirebaseFirestore.instance.collection("campus").orderBy('name').get();
-  }
-
-  _selectImage(BuildContext parentContext) async {
-    return showDialog(
-      context: parentContext,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title: const Text('Create a Post'),
-          children: <Widget>[
-            SimpleDialogOption(
-                padding: const EdgeInsets.all(20),
-                child: const Text('Take a photo'),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  Uint8List file = await pickImage(ImageSource.camera);
-                  setState(() {
-                    _file = file;
-                  });
-                }),
-            SimpleDialogOption(
-                padding: const EdgeInsets.all(20),
-                child: const Text('Choose from Gallery'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  Uint8List file = await pickImage(ImageSource.gallery);
-                  setState(() {
-                    _file = file;
-                  });
-                }),
-            SimpleDialogOption(
-              padding: const EdgeInsets.all(20),
-              child: const Text("Cancel"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      },
-    );
   }
 
   void postImage(
@@ -124,12 +86,94 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return _file == null
-        ? Center(
-            child: IconButton(
-              icon: const Icon(
-                Icons.upload,
-              ),
-              onPressed: () => _selectImage(context),
+        ? Scaffold(
+            backgroundColor: backgroundColor,
+            appBar: AppBar(
+              toolbarHeight: 0,
+            ),
+            body: Column(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {
+                      Uint8List file = await pickImage(ImageSource.gallery);
+                      setState(
+                        () {
+                          _file = file;
+                        },
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: gradient,
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(Icons.photo_library_sharp),
+                            ),
+                            const Text('Escolher da Galeria'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 2),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {
+                      Uint8List file = await pickImage(ImageSource.camera);
+                      setState(
+                        () {
+                          _file = file;
+                        },
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: gradient,
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(Icons.camera_alt_outlined),
+                            ),
+                            Text('Tirar Foto'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 75,
+                ),
+              ],
             ),
           )
         : Scaffold(

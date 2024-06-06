@@ -138,7 +138,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     hintText: 'Senha',
                     textInputType: TextInputType.text,
                     textEditingController: _passwordController,
-                    isPass: true,
+                    isPass: true, // adicionar switch de visão de senha
                   ),
                   const SizedBox(
                     height: 24,

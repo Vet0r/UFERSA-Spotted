@@ -82,6 +82,11 @@ flutter:
     - assets/favorite.svg
     - assets/notifications.svg
     - assets/home.svg
+    - assets/add_selected.svg
+    - assets/boneco_selected.svg
+    - assets/favorite_selected.svg
+    - assets/notifications_selected.svg
+    - assets/home_selected.svg
     - assets/ic_launcher_background.png
     - assets/ic_launcher_foreground.png
     - assets/ic_launcher.png

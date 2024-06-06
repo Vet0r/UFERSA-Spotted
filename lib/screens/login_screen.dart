@@ -141,32 +141,35 @@ class _LoginScreenState extends State<LoginScreen> {
                     flex: 2,
                     child: Container(),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: const Text(
-                          'Não tem uma conta?',
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const SignupScreen(),
-                          ),
-                        ),
-                        child: Container(
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: const Text(
-                            ' inscreva-se',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                            'Não tem uma conta?',
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const SignupScreen(),
+                            ),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: const Text(
+                              ' inscreva-se',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
