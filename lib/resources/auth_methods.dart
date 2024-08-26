@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:spotted_ufersa/models/user.dart' as model;
 
 class AuthMethods {
@@ -21,6 +22,8 @@ class AuthMethods {
     required String username,
     required String password2,
     required String campusId,
+    required bool isCodeRequired,
+    String? code,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -35,24 +38,52 @@ class AuthMethods {
         if (password2 != password) {
           return "As senhas não coincidem";
         }
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-
-        model.User user = model.User(
-          username: username,
-          uid: cred.user!.uid,
-          email: email,
-          campusId: campusId,
-          verifyed: FirebaseAuth.instance.currentUser!.emailVerified,
-        );
-        await _firestore
-            .collection("users")
-            .doc(cred.user!.uid)
-            .set(user.toJson());
-        res = "Verifique seu Email!";
-        FirebaseAuth.instance.currentUser!.sendEmailVerification();
+        if (isCodeRequired) {
+          if (code != '') {
+            var docCode = await FirebaseFirestore.instance
+                .collection('codes')
+                .where('code', isEqualTo: code)
+                .get();
+            if (docCode.docs.isNotEmpty) {
+              if (!docCode.docs.first['isUsed']) {
+                UserCredential cred =
+                    await _auth.createUserWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
+                String? notificatiosnToken =
+                    await FirebaseMessaging.instance.getToken();
+                model.User user = model.User(
+                  username: username,
+                  uid: cred.user!.uid,
+                  email: email,
+                  campusId: campusId,
+                  verifyed: FirebaseAuth.instance.currentUser!.emailVerified,
+                  notificationsToken: notificatiosnToken!,
+                );
+                await FirebaseMessaging.instance.subscribeToTopic(campusId);
+                await _firestore
+                    .collection("users")
+                    .doc(cred.user!.uid)
+                    .set(user.toJson());
+                res = "Verifique seu Email!";
+                FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                FirebaseFirestore.instance
+                    .collection('codes')
+                    .doc(docCode.docs.first.id)
+                    .update(
+                  {
+                    'isUsed': true,
+                  },
+                );
+              } else {
+                return 'Esse código já foi usado';
+              }
+            } else {
+              return 'Código Inválido';
+            }
+          }
+        }
       } else {
         res = "Preencha todos os campos";
       }

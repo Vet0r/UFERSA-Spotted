@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -69,7 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
           : FutureBuilder(
               future: FirebaseFirestore.instance
                   .collection('posts')
-                  .orderBy('datePublished')
+                  .orderBy('datePublished', descending: true)
                   .get(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -77,12 +79,14 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
-
+                int n = (snapshot.data! as dynamic).docs.length;
+                List<int> vetor = List<int>.generate(n, (index) => index);
+                vetor.shuffle(Random());
                 return MasonryGridView.count(
                   crossAxisCount: 3,
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) => Image.network(
-                    (snapshot.data! as dynamic).docs[index]['postUrl'],
+                    (snapshot.data! as dynamic).docs[vetor[index]]['postUrl'],
                     fit: BoxFit.cover,
                   ),
                   mainAxisSpacing: 8.0,

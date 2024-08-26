@@ -1,5 +1,7 @@
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,6 +30,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
+  bool isCodeRequired = false;
   bool _isLoading = false;
   String? campus;
 
@@ -46,17 +50,20 @@ class _SignupScreenState extends State<SignupScreen> {
     _usernameController.dispose();
   }
 
-  void signUpUser() async {
+  void signUpUser(bool isCodeRequired, {String code = ''}) async {
     setState(() {
       _isLoading = true;
     });
 
     String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
-        password: _passwordController.text,
-        username: _usernameController.text,
-        password2: _password2Controller.text,
-        campusId: campusId);
+      email: _emailController.text,
+      password: _passwordController.text,
+      username: _usernameController.text,
+      password2: _password2Controller.text,
+      campusId: campusId,
+      isCodeRequired: isCodeRequired,
+      code: code,
+    );
     if (res == "Verifique seu Email!") {
       setState(() {
         _isLoading = false;
@@ -70,6 +77,7 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       );
       showSnackBar(context, res);
+      createUserCode();
     } else {
       setState(() {
         _isLoading = false;
@@ -78,12 +86,36 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
+  String generateRandomString() {
+    const characters =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final random = Random();
+    return String.fromCharCodes(
+      Iterable.generate(
+        10,
+        (_) => characters.codeUnitAt(random.nextInt(characters.length)),
+      ),
+    );
+  }
+
+  void createUserCode() {
+    var docRef = FirebaseFirestore.instance
+        .collection('codes')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+    docRef.set(
+      {
+        'code': generateRandomString(),
+        'isUsed': false,
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           Image.asset(
@@ -153,6 +185,31 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(
                     height: 24,
                   ),
+                  FutureBuilder(
+                    future: FirebaseFirestore.instance
+                        .collection('vars')
+                        .doc('codes')
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container();
+                      } else {
+                        if (((snapshot.data as DocumentSnapshot).data()
+                            as Map<String, dynamic>)['isRequireCode']) {
+                          isCodeRequired = true;
+                          return TextFieldInput(
+                            hintText: 'Código',
+                            textInputType: TextInputType.text,
+                            textEditingController: _codeController,
+                          );
+                        } else
+                          return Container();
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
                   FutureBuilder<QuerySnapshot>(
                     future: campusData,
                     builder: (context, snapshot) {
@@ -188,7 +245,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 24,
                   ),
                   InkWell(
-                    onTap: signUpUser,
+                    onTap: () {
+                      signUpUser(isCodeRequired, code: _codeController.text);
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.3,
                       alignment: Alignment.center,

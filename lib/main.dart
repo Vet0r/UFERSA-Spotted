@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotted_ufersa/providers/user_provider.dart';
@@ -14,7 +15,6 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // initialise app based on platform- web or mobile
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
@@ -27,6 +27,24 @@ void main() async {
     );
   } else {
     await Firebase.initializeApp();
+  }
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: true,
+    badge: true,
+    carPlay: true,
+    criticalAlert: true,
+    provisional: true,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('Usuário concedeu permissão para notificações');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    print('Usuário concedeu permissão provisória para notificações');
+  } else {
+    print('Usuário negou permissão para notificações');
   }
   runApp(const MyApp());
 }
