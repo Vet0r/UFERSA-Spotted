@@ -184,7 +184,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 onPressed: clearImage,
               ),
               title: const Text(
-                'Post to',
+                'Postar',
               ),
               centerTitle: false,
               actions: <Widget>[
@@ -196,7 +196,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     selectedCampus!,
                   ),
                   child: const Text(
-                    "Post",
+                    "Enviar",
                     style: TextStyle(
                         color: Colors.blueAccent,
                         fontWeight: FontWeight.bold,
@@ -205,74 +205,74 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 )
               ],
             ),
-            // POST FORM
             body: Column(
-              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 isLoading
                     ? const LinearProgressIndicator()
                     : const Padding(padding: EdgeInsets.only(top: 0.0)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.width * .75,
-                      width: MediaQuery.of(context).size.width * .75,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          fit: BoxFit.contain,
-                          alignment: FractionalOffset.topCenter,
-                          image: MemoryImage(_file!),
-                        )),
-                      ),
+                Expanded(
+                  flex: 3,
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        fit: BoxFit.contain,
+                        alignment: FractionalOffset.center,
+                        image: MemoryImage(_file!),
+                      )),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: TextField(
-                    controller: _descriptionController,
-                    decoration: const InputDecoration(
-                        hintText: "Escreva Algo...", border: InputBorder.none),
-                    maxLines: 8,
                   ),
                 ),
-                FutureBuilder<QuerySnapshot>(
-                  future: campusData,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Erro ao carregar dados');
-                    } else {
-                      List<DropdownMenuItem<String>> items = [];
-                      snapshot.data!.docs.forEach((document) {
-                        campusId = document.id;
-                        String campusNome =
-                            (document.data()! as Map<String, dynamic>)['name'];
-                        items.add(DropdownMenuItem(
-                          value: campusNome,
-                          child: Text(campusNome),
-                        ));
-                      });
-                      return Column(
-                        children: [
-                          DropdownButton<String>(
-                            value: selectedCampus,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedCampus = value;
-                              });
-                            },
-                            items: items,
-                            hint: Text('Selecione um campus'),
-                          ),
-                        ],
-                      );
-                    }
-                  },
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: _descriptionController,
+                        decoration: const InputDecoration(
+                            hintText: "Escreva Algo...",
+                            border: InputBorder.none),
+                        maxLines: 2,
+                        maxLength: 120,
+                      ),
+                      FutureBuilder<QuerySnapshot>(
+                        future: campusData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Erro ao carregar dados');
+                          } else {
+                            List<DropdownMenuItem<String>> items = [];
+                            snapshot.data!.docs.forEach((document) {
+                              campusId = document.id;
+                              String campusNome = (document.data()!
+                                  as Map<String, dynamic>)['name'];
+                              items.add(DropdownMenuItem(
+                                value: campusNome,
+                                child: Text(campusNome),
+                              ));
+                            });
+                            return Column(
+                              children: [
+                                DropdownButton<String>(
+                                  value: selectedCampus,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedCampus = value;
+                                    });
+                                  },
+                                  items: items,
+                                  hint: Text('Selecione um campus'),
+                                ),
+                              ],
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
