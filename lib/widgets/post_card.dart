@@ -61,6 +61,97 @@ class _PostCardState extends State<PostCard> {
     }
   }
 
+  reportPost(String postId, String motivo) async {
+    try {
+      await FireStoreMethods().reportPost(postId, motivo);
+    } catch (err) {
+      showSnackBar(
+        context,
+        err.toString(),
+      );
+    }
+  }
+
+  buttonReport(BuildContext context, String postId) {
+    return IconButton(
+      onPressed: () {
+        showDialog(
+          useRootNavigator: false,
+          context: context,
+          builder: (context) {
+            return Dialog(
+              child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shrinkWrap: true,
+                  children: [
+                    'Reportar Post',
+                  ]
+                      .map(
+                        (e) => InkWell(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 16),
+                              child: Row(
+                                children: [
+                                  Text(e),
+                                  const Padding(
+                                      padding: EdgeInsets.only(left: 10)),
+                                  const Icon(
+                                    Icons.report_gmailerrorred_outlined,
+                                    color: Colors.red,
+                                  )
+                                ],
+                              ),
+                            ),
+                            onTap: () async {
+                              await reportPost(postId, 'Motivo');
+                              Navigator.of(context).pop();
+                            }),
+                      )
+                      .toList()),
+            );
+          },
+        );
+      },
+      icon: const Icon(Icons.more_vert),
+    );
+  }
+
+  buttonDelete(BuildContext context, String postId) {
+    return IconButton(
+      onPressed: () {
+        showDialog(
+          useRootNavigator: false,
+          context: context,
+          builder: (context) {
+            return Dialog(
+              child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shrinkWrap: true,
+                  children: [
+                    'Deletar Post',
+                  ]
+                      .map(
+                        (e) => InkWell(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 16),
+                              child: Text(e),
+                            ),
+                            onTap: () async {
+                              await deletePost(postId);
+                              Navigator.of(context).pop();
+                            }),
+                      )
+                      .toList()),
+            );
+          },
+        );
+      },
+      icon: const Icon(Icons.more_vert),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
@@ -102,10 +193,12 @@ class _PostCardState extends State<PostCard> {
                       widget.snap['uid'].toString() == user.uid
                           ? buttonDelete(
                               context,
-                              deletePost,
                               widget.snap['postId'].toString(),
                             )
-                          : Container(),
+                          : buttonReport(
+                              context,
+                              widget.snap['postId'].toString(),
+                            ),
                     ],
                   ),
                   GestureDetector(
@@ -295,40 +388,4 @@ class _PostCardState extends State<PostCard> {
       ),
     );
   }
-}
-
-buttonDelete(BuildContext context, Function deletePost, String postId) {
-  return IconButton(
-    onPressed: () {
-      showDialog(
-        useRootNavigator: false,
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shrinkWrap: true,
-                children: [
-                  'Deletar Post',
-                ]
-                    .map(
-                      (e) => InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 16),
-                            child: Text(e),
-                          ),
-                          onTap: () {
-                            deletePost(postId);
-                            // remove the dialog box
-                            Navigator.of(context).pop();
-                          }),
-                    )
-                    .toList()),
-          );
-        },
-      );
-    },
-    icon: const Icon(Icons.more_vert),
-  );
 }

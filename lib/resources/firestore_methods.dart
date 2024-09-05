@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:spotted_ufersa/models/post.dart';
 import 'package:spotted_ufersa/resources/storage_methods.dart';
@@ -94,6 +95,44 @@ class FireStoreMethods {
     } catch (err) {
       res = err.toString();
     }
+    return res;
+  }
+
+  Future<String> reportPost(String postId, String motivo) async {
+    String res = "Some error occurred";
+    try {
+      DocumentReference<Map<String, dynamic>> post =
+          _firestore.collection('reports').doc(postId);
+      var getPost = await post.get();
+      bool exists = getPost.exists;
+
+      if (exists) {
+        List<dynamic> users = getPost.data()!['users'];
+        bool containsUser =
+            users.contains(FirebaseAuth.instance.currentUser!.email);
+        if (containsUser) {
+          res = 'Você já reportou esse post';
+          return res;
+        } else {
+          await post.update({
+            "motivos": FieldValue.arrayUnion([motivo]),
+            "users": FieldValue.arrayUnion(
+                [FirebaseAuth.instance.currentUser!.email]),
+          });
+        }
+      } else {
+        await post.set({
+          'idPost': postId,
+          "motivos": FieldValue.arrayUnion([motivo]),
+          "users":
+              FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.email]),
+        });
+      }
+      res = 'Reportado com Sucesso';
+    } catch (err) {
+      res = err.toString();
+    }
+    print(res);
     return res;
   }
 

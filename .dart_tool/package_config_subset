@@ -310,6 +310,10 @@ provider
 2.12
 file:///Users/vitortargino/.pub-cache/hosted/pub.dev/provider-6.1.2/
 file:///Users/vitortargino/.pub-cache/hosted/pub.dev/provider-6.1.2/lib/
+shimmer
+2.17
+file:///Users/vitortargino/.pub-cache/hosted/pub.dev/shimmer-3.0.0/
+file:///Users/vitortargino/.pub-cache/hosted/pub.dev/shimmer-3.0.0/lib/
 source_span
 2.18
 file:///Users/vitortargino/.pub-cache/hosted/pub.dev/source_span-1.10.0/
