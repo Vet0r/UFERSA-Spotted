@@ -14,20 +14,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: 'AIzaSyBPAWP_JGR4GZ-PJxRTj1QCZ9_XNoc4HiQ',
-        appId: '1:977398905790:android:6d1d1fe29781e790c917ef',
-        messagingSenderId: '977398905790',
-        projectId: 'ufersa-spotted',
-        storageBucket: 'ufersa-spotted.appspot.com',
-      ),
-    );
-  } else {
-    await Firebase.initializeApp();
-  }
+  await Firebase.initializeApp();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,

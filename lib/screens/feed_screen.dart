@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotted_ufersa/models/campus.dart';
+import 'package:spotted_ufersa/screens/chat_screen.dart';
 import 'package:spotted_ufersa/utils/colors.dart';
 import 'package:spotted_ufersa/utils/global_variable.dart';
 import 'package:spotted_ufersa/widgets/post_card.dart';
@@ -58,7 +59,13 @@ class _FeedScreenState extends State<FeedScreen> {
                             Icons.messenger_outline,
                             color: primaryColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => ChatScreen(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
