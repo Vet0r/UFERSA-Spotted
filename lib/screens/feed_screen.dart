@@ -56,16 +56,10 @@ class _FeedScreenState extends State<FeedScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: IconButton(
                           icon: const Icon(
-                            Icons.messenger_outline,
-                            color: primaryColor,
+                            Icons.signal_cellular_alt_1_bar_sharp,
+                            color: backgroundColor,
                           ),
-                          onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => ChatScreen(),
-                              ),
-                            );
-                          },
+                          onPressed: () {},
                         ),
                       ),
                     ],
