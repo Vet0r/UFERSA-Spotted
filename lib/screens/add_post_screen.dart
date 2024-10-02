@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:spotted_ufersa/providers/user_provider.dart';
 import 'package:spotted_ufersa/resources/firestore_methods.dart';
+import 'package:spotted_ufersa/resources/storage_methods.dart';
 import 'package:spotted_ufersa/utils/colors.dart';
 import 'package:spotted_ufersa/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -24,12 +27,75 @@ class _AddPostScreenState extends State<AddPostScreen> {
   String? selectedCampus;
   late String campusId;
   bool isLoading = false;
+  String? photoUrl;
   final TextEditingController _descriptionController = TextEditingController();
 
   void initState() {
     super.initState();
     campusData =
         FirebaseFirestore.instance.collection("campus").orderBy('name').get();
+  }
+
+  void verifyImageSafty(
+      String uid, String username, String campusId, String campus) async {
+    bool isSafe = false;
+    const String apiUrl = 'https://api.openai.com/v1/chat/completions';
+    const String apiKey =
+        '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';
+    setState(() {
+      isLoading = true;
+    });
+    photoUrl =
+        await StorageMethods().uploadImageToStorage('posts', _file!, true);
+
+    final Map<String, dynamic> requestBody = {
+      "model": "gpt-4o-mini",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text":
+                  "Esta imagem ou o texto a seguir representa algo impróprio ou imoral? '${_descriptionController.text} .' responda somente 'true' ou 'false' "
+            },
+            {
+              "type": "image_url",
+              "image_url": {"url": "$photoUrl"}
+            }
+          ]
+        }
+      ],
+      "max_tokens": 300
+    };
+
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $apiKey',
+      },
+      body: jsonEncode(requestBody),
+    );
+    if (response.statusCode == 200) {
+      print('Response: ${response.body}');
+      final Map decode = json.decode(response.body);
+      if (((decode['choices'][0]['message']['content']) as String)
+              .toLowerCase() !=
+          'true') {
+        isSafe = true;
+      }
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (isSafe == true) {
+      postImage(uid, username, campusId, campus);
+    } else {}
   }
 
   void postImage(
@@ -39,13 +105,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
     });
     try {
       String res = await FireStoreMethods().uploadPost(
-        _descriptionController.text,
-        _file!,
-        uid,
-        username,
-        campusId,
-        campus,
-      );
+          _descriptionController.text,
+          _file!,
+          uid,
+          username,
+          campusId,
+          campus,
+          photoUrl!);
       if (res == "success") {
         setState(() {
           isLoading = false;
@@ -189,7 +255,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               centerTitle: false,
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => postImage(
+                  onPressed: () => verifyImageSafty(
                     userProvider.getUser.uid,
                     userProvider.getUser.username,
                     campusId,
