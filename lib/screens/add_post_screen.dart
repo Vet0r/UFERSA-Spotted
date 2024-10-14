@@ -28,6 +28,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   late String campusId;
   bool isLoading = false;
   String? photoUrl;
+  bool unsafeTag = false;
   final TextEditingController _descriptionController = TextEditingController();
 
   void initState() {
@@ -39,9 +40,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
   void verifyImageSafty(
       String uid, String username, String campusId, String campus) async {
     bool isSafe = false;
+
     const String apiUrl = 'https://api.openai.com/v1/chat/completions';
-    const String apiKey =
-        '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';
+    var snaps = await FirebaseFirestore.instance
+        .collection('vars')
+        .doc('api_keys')
+        .get();
+    String apiKey = snaps.data()!['api_key'];
+    '';
     setState(() {
       isLoading = true;
     });
@@ -94,8 +100,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
     });
 
     if (isSafe == true) {
+      unsafeTag = false;
       postImage(uid, username, campusId, campus);
-    } else {}
+    } else {
+      unsafeTag = true;
+    }
   }
 
   void postImage(
@@ -301,6 +310,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         maxLines: 2,
                         maxLength: 120,
                       ),
+                      unsafeTag
+                          ? Text(
+                              'Conteúdo sensível detectado',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            )
+                          : Container(),
                       FutureBuilder<QuerySnapshot>(
                         future: campusData,
                         builder: (context, snapshot) {
