@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:spotted_ufersa/models/user.dart' as model;
 import 'package:spotted_ufersa/providers/user_provider.dart';
 import 'package:spotted_ufersa/resources/firestore_methods.dart';
@@ -11,6 +12,7 @@ import 'package:spotted_ufersa/utils/utils.dart';
 import 'package:spotted_ufersa/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:spotted_ufersa/widgets/text_field_input.dart';
 
 class PostCard extends StatefulWidget {
   final snap;
@@ -26,6 +28,7 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   int commentLen = 0;
   bool isLikeAnimating = false;
+  TextEditingController _controllerMotivo = TextEditingController();
 
   @override
   void initState() {
@@ -64,7 +67,9 @@ class _PostCardState extends State<PostCard> {
   reportPost(String postId, String motivo) async {
     try {
       await FireStoreMethods().reportPost(postId, motivo);
+      _controllerMotivo.clear();
     } catch (err) {
+      _controllerMotivo.clear();
       showSnackBar(
         context,
         err.toString(),
@@ -104,8 +109,51 @@ class _PostCardState extends State<PostCard> {
                               ),
                             ),
                             onTap: () async {
-                              await reportPost(postId, 'Motivo');
                               Navigator.of(context).pop();
+                              showDialog(
+                                useRootNavigator: false,
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextField(
+                                          controller: _controllerMotivo,
+                                          maxLines: 5,
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Descreva o problema',
+                                            hintText: 'Digite aqui...',
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            await reportPost(
+                                                postId, _controllerMotivo.text);
+                                            Navigator.of(context).pop();
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return Dialog(
+                                                  child: Text(
+                                                    'Relatório enviado com sucesso! Nossa equipe irá verificar o seu reporte o mais breve possível.',
+                                                    style: TextStyle(
+                                                        color: Colors.green),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Text('Reportar'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
                             }),
                       )
                       .toList()),
