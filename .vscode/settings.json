@@ -1,0 +1,6 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "flutter": true
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
